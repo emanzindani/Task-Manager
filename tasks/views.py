@@ -4,7 +4,6 @@ from tasks.forms import TaskForm
 from tasks.models import Task
 
 
-# Create your views here.
 @login_required
 def create_task(request):
     if request.method == "POST":
@@ -17,3 +16,12 @@ def create_task(request):
 
     context = {"form": form}
     return render(request, "tasks/create.html", context)
+
+
+@login_required
+def task_list(request):
+    tasks = Task.objects.filter(assignee=request.user)
+    context = {
+        "task_list": tasks,
+    }
+    return render(request, "tasks/list.html", context)
